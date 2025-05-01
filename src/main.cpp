@@ -35,12 +35,12 @@ auto main(int argc, char **argv) -> int {
         nullptr);
     if (window == nullptr) {
         glfwTerminate();
-        return false;
+        return 1;
     }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return false;
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return 1;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
