@@ -27,17 +27,17 @@ auto main(int argc, char **argv) -> int {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-    globals.window = glfwCreateWindow(
-        Constants::window_width,
-        Constants::window_height,
-        Constants::window_title,
+    GLFWwindow *window = glfwCreateWindow(
+        1280,
+        720,
+        "MyWindow",
         nullptr,
         nullptr);
-    if (globals.window == nullptr) {
+    if (window == nullptr) {
         glfwTerminate();
         return false;
     }
-    glfwMakeContextCurrent(globals.window);
+    glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return false;
@@ -47,10 +47,10 @@ auto main(int argc, char **argv) -> int {
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(globals.window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
 
-    while (!glfwWindowShouldClose(globals.window)) {
+    while (!glfwWindowShouldClose(window)) {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
