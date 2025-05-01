@@ -14,7 +14,7 @@
 #include <iostream>
 
 auto main(int argc, char **argv) -> int {
-    if (glfwInit() == GLFW_FALSE) return false;
+    if (glfwInit() == GLFW_FALSE) return 1;
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

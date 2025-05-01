@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(cv_playground LANGUAGES CXX)
+project(main LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -62,11 +62,11 @@ set(XTENSOR_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(xtensor)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
-add_executable(cv_playground ${SOURCES})
+add_executable(main ${SOURCES})
 
 # Copy data directory after build
 add_custom_command(
-    TARGET cv_playground POST_BUILD
+    TARGET main POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/data
         ${CMAKE_BINARY_DIR}/data
@@ -74,13 +74,13 @@ add_custom_command(
 
 # === include dirs ===
 # Our own code
-target_include_directories(cv_playground PRIVATE
+target_include_directories(main PRIVATE
     ${glad_SOURCE_DIR}/include
     ${glfw_SOURCE_DIR}/include
 )
 
 # Third-party headers as SYSTEM (no warnings from them)
-target_include_directories(cv_playground SYSTEM PRIVATE
+target_include_directories(main SYSTEM PRIVATE
     ${imgui_SOURCE_DIR}
     ${imgui_SOURCE_DIR}/backends
     ${stb_SOURCE_DIR}
@@ -92,7 +92,7 @@ find_package(OpenGL REQUIRED)
 
 # === warnings: only for our target ===
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  target_compile_options(cv_playground PRIVATE
+  target_compile_options(main PRIVATE
     -Wall
     -Wextra
     -Wpedantic
@@ -115,7 +115,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 # Link libraries
-target_link_libraries(cv_playground PRIVATE
+target_link_libraries(main PRIVATE
     glfw
     glad
     OpenGL::GL
