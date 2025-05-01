@@ -58,15 +58,15 @@ auto main(int argc, char **argv) -> int {
         ImGui::Render();
 
         glfwPollEvents();
-        if (glfwGetKey(globals.window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(globals.window, GLFW_TRUE);
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
     }
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    glfwDestroyWindow(globals.window);
+    glfwDestroyWindow(window);
     glfwTerminate();
 
     return 0;
