@@ -1,0 +1,73 @@
+/* danielsinkin97@gmail.com */
+#define GLFW_INCLUDE_NONE
+
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "imgui.h"
+
+#include "stb_image.h"
+#include "stb_image_write.h"
+
+#include <iostream>
+
+auto main(int argc, char **argv) -> int {
+    if (glfwInit() == GLFW_FALSE) return false;
+
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#else
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
+
+    globals.window = glfwCreateWindow(
+        Constants::window_width,
+        Constants::window_height,
+        Constants::window_title,
+        nullptr,
+        nullptr);
+    if (globals.window == nullptr) {
+        glfwTerminate();
+        return false;
+    }
+    glfwMakeContextCurrent(globals.window);
+    glfwSwapInterval(1);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) return false;
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(globals.window, true);
+    ImGui_ImplOpenGL3_Init("#version 410");
+
+    while (!glfwWindowShouldClose(globals.window)) {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::Render();
+
+        glfwPollEvents();
+        if (glfwGetKey(globals.window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(globals.window, GLFW_TRUE);
+        }
+    }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+    glfwDestroyWindow(globals.window);
+    glfwTerminate();
+
+    return 0;
+}
